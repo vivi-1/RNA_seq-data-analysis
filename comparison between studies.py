@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-##################Developed by Wei Wang and Kevin Yu##########################
 import os
 import pandas
 import re
@@ -10,7 +9,6 @@ import re
 import openpyxl
 import xlwt
 from openpyxl import Workbook
-import xlrd
 
 # from xlrd import load_workbook
 currentDirectory = "/Volumes/WD1/DEGlist/Comparison files/comparison to other studies"
