@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-##################Developed by Wei Wang and Kevin Yu##########################
+
 import os
 import pandas
 import re
