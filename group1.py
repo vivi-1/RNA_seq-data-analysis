@@ -1,5 +1,4 @@
 #!/user/bin/python
-#####Developed by Kevin Yu and Wei
 ################################## File manilupation ##########################
 ## Go to the directory containing all DEG files
 import os
