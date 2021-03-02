@@ -1,5 +1,4 @@
 #!/user/bin/python
-#####Developed by Kevin Yu and Wei Wang
 ################################## File manilupation ##########################
 ## Go to the directory containing all DEG files
 import os
@@ -25,12 +24,6 @@ def subtractGenes(A,B): # A-B
 
 def intersectGenes(A,B): # AnB
     return numpy.intersect1d(A,B)
-
-# def addGenes(A,B): # A+B
-    # return set(A)+set(B)
-
-#def interbtsheets(A,B,C,D,E,F,G):
-    #return set(A).intersection(B,C,D,E,F,G)
 
 
 def createExcelFile(currentDirectory,fileName): # creates excel file to manipulate
@@ -70,7 +63,7 @@ for i in range(0,len(folderNames)):
 
 ################################## Obtaining Files and Data #########################################
 ## list files in upregulate:  os.listdir('/Volumes/WD1/DEGlist/up_regulate')
-## sort files by names in Spyder
+## sort files by names
 fullDataStructureIndices = []
 fileNames = []
 ## loops through "folderNames". We do -1 because we don't care about the all folder
