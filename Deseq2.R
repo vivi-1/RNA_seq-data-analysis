@@ -5,9 +5,13 @@
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #   install.packages("BiocManager")
 # BiocManager::install("DESeq2")
-
+lilbrary("readxl")
 library (DeSeq2)
 setwd('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist')
-colData<-read.table('raw data_readcount.xlsx', header=TRUE, row.names = 1)
-condition<-factor(c(rep("Mock", 7)), c(rep("Flg", 7)), c(rep("Path", 7)))
-individual <- factor(c(rep("T1",3), rep("T2",3),rep("T3",3), rep("T4",3),rep("T5",3),rep("T6",4), rep("T7",4)))
+readscount<-read.excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/raw data_readcount.xlsx')
+colData <- read.excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/colData.xlsx')
+condition<-factor(c("Mock", "Flag22","Pnic", "Flag22+Pnic"))
+timepoint <- factor(c("T1","T2","T3","T4","T5","T6", "T7"))
+replicate <- factor(c("One", "Two", "Three", "Four"))
+colData
+head(readscount)
