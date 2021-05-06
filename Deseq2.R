@@ -14,12 +14,12 @@ library(limma)
 library(apeglm)  
 library(ggplot2)
 
-setwd('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist')
-readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/raw data_readcount.xlsx', sheet = "gene.description")
-colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/colData.xlsx', sheet = "Sheet1")
-condition <-factor(c("Mock", "Flag22","Pnic", "Flag22+Pnic"))
+setwd('/Users/weiwang/Desktop/DEGlist')
+readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount.xlsx', sheet = "gene.description")
+colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData.xlsx', sheet = "Sheet1")
+condition <-factor(c("Control", "Flag22","Pnic", "Flag22+Pnic"))
 timepoint <- factor(c("T1","T2","T3","T4","T5","T6", "T7"))
-replicate <- factor(c("One", "Two", "Three", "Four"))
+replicate <- factor(c("Rep1","Rep2","Rep3","Rep4","Rep5","Rep6", "Rep7"))
 colData
 head(readscount)
 condition
@@ -38,9 +38,9 @@ plotPCA(vsdata, intgroup = "condition")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
-res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
 
 summary(res_Pnic) 
 summary(res_Flag22)
@@ -127,7 +127,7 @@ dev.off()
 readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount.xlsx', sheet = "T1")
 colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData.xlsx', sheet = "T1")
 condition <-factor(c("Control", "Flag22","Pnic", "Flag22+Pnic"))
-replicate <- factor(c(1, 2, 3, 4))
+replicate <- factor(c("Rep1","Rep2","Rep3","Rep4","Rep5","Rep6", "Rep7"))
 
 colData
 head(readscount)
@@ -146,9 +146,9 @@ plotPCA(vsdata, intgroup = "condition")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
-res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
 
 summary(res_Pnic) 
 summary(res_Flag22)
@@ -240,8 +240,8 @@ dev.off()
 ### T2
 readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/raw data_readcount.xlsx', sheet = "T2")
 colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/colData.xlsx', sheet = "T2")
-condition <-factor(c("Mock", "Flag22","Pnic", "Flag22+Pnic"))
-replicate <- factor(c("One", "Two", "Three", "Four"))
+condition <-factor(c("Control", "Flag22","Pnic", "Flag22+Pnic"))
+replicate <- factor(c("Rep1","Rep2","Rep3","Rep4","Rep5","Rep6", "Rep7"))
 colData
 head(readscount)
 condition
@@ -256,9 +256,9 @@ plotPCA(vsdata, intgroup = "condition")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
-res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
 
 summary(res_Pnic) 
 summary(res_Flag22)
@@ -344,8 +344,8 @@ dev.off()
 ### T7
 readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/raw data_readcount.xlsx', sheet = "T7")
 colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/colData.xlsx', sheet = "T7")
-condition <-factor(c("Mock", "Flag22","Pnic", "Flag22+Pnic"))
-replicate <- factor(c("One", "Two", "Three", "Four"))
+condition <-factor(c("Control", "Flag22","Pnic", "Flag22+Pnic"))
+replicate <- factor(c("Rep1","Rep2","Rep3","Rep4","Rep5","Rep6", "Rep7"))
 colData
 head(readscount)
 condition
@@ -360,9 +360,9 @@ plotPCA(vsdata, intgroup = "condition")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
-res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Mock"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
 
 summary(res_Pnic) 
 summary(res_Flag22)
