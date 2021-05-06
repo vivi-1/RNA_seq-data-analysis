@@ -331,9 +331,9 @@ ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
 
 dev.off()
 
-### T4
-readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/raw data_readcount.xlsx', sheet = "T4")
-colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/colData.xlsx', sheet = "T4")
+### T7
+readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/raw data_readcount.xlsx', sheet = "T7")
+colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/colData.xlsx', sheet = "T7")
 condition <-factor(c("Mock", "Flag22","Pnic", "Flag22+Pnic"))
 replicate <- factor(c("One", "Two", "Three", "Four"))
 colData
@@ -385,50 +385,50 @@ up_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange >
 down_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange < -1)
 
 
-write.csv(res_Pnic_data, "T4_all_Pnic.csv") #全部基因不筛选，做火山图的背景
-write.csv(up_PnicDEG, "T4_up_Pnic.csv")
-write.csv(down_PnicDEG, "T4_down_Pnic.csv")
+write.csv(res_Pnic_data, "T7_all_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(up_PnicDEG, "T7_up_Pnic.csv")
+write.csv(down_PnicDEG, "T7_down_Pnic.csv")
 
-write.csv(res_Flag22_data, "T4_all_Flag22.csv") #全部基因不筛选，做火山图的背景
-write.csv(up_Flag22DEG, "T4_up_Flag22.csv")
-write.csv(down_Flag22DEG, "T4_down_Flag22.csv")
+write.csv(res_Flag22_data, "T7_all_Flag22.csv") #全部基因不筛选，做火山图的背景
+write.csv(up_Flag22DEG, "T7_up_Flag22.csv")
+write.csv(down_Flag22DEG, "T7_down_Flag22.csv")
 
-write.csv(res_Flag22_Pnic_data, "T4_all_Flag22_Pnic.csv") #全部基因不筛选，做火山图的背景
-write.csv(up_Flag22_PnicDEG, "T4_up_Flag22_Pnic.csv")
-write.csv(down_Flag22_PnicDEG, "T4_down_Flag22_Pnic.csv")
+write.csv(res_Flag22_Pnic_data, "T7_all_Flag22_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(up_Flag22_PnicDEG, "T7_up_Flag22_Pnic.csv")
+write.csv(down_Flag22_PnicDEG, "T7_down_Flag22_Pnic.csv")
 
 par(mar=c(8,5,2,2))
 boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2)
 
 resultsNames(dds_norm)  #看一下要shrink的维度;shrink数据更加紧凑,少了一项stat，但并未改变padj，但改变了foldchange
 res_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Flag22", type="apeglm") #最推荐apeglm算法;根据resultsNames(dds)的第5个维度，coef=5，也可直接""指定;apeglm不allow contrast，所以要指定coef
-pdf("T4_MAplot.pdf", width = 6, height = 6) 
-plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="T4_MA plot: ")
+pdf("T7_MAplot.pdf", width = 6, height = 6) 
+plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="T7_MA plot: ")
 dev.off()
 
-voldata_Flag22 <-read.csv(file = "T4_all_Flag22.csv",header = TRUE, row.names =1)
-voldata_Pnic <-read.csv(file = "T4_all_Pnic.csv",header = TRUE, row.names =1)
-voldata_Flag22_Pnic <-read.csv(file = "T4_all_Flag22_Pnic.csv",header = TRUE, row.names =1)
+voldata_Flag22 <-read.csv(file = "T7_all_Flag22.csv",header = TRUE, row.names =1)
+voldata_Pnic <-read.csv(file = "T7_all_Pnic.csv",header = TRUE, row.names =1)
+voldata_Flag22_Pnic <-read.csv(file = "T7_all_Flag22_Pnic.csv",header = TRUE, row.names =1)
 
-pdf("T4_volcano.pdf", width = 6.13, height = 5.18)
+pdf("T7_volcano.pdf", width = 6.13, height = 5.18)
 ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
-  labs(title="T4_Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
+  labs(title="T7_Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
   geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
   geom_vline(xintercept=c(-1,1),linetype=4) +
   theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
 ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
-  labs(title="T4_Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
+  labs(title="T7_Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
   geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
   geom_vline(xintercept=c(-1,1),linetype=4) +
   theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
 ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
-  labs(title="T4_Volcano Plot_Flag22_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
+  labs(title="T7_Volcano Plot_Flag22_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
   geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
   geom_vline(xintercept=c(-1,1),linetype=4) +
   theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
