@@ -88,7 +88,7 @@ par(mar=c(8,5,2,2))
 boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2)
 
 resultsNames(dds_norm)  #看一下要shrink的维度;shrink数据更加紧凑,少了一项stat，但并未改变padj，但改变了foldchange
-res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") #最推荐apeglm算法;根据resultsNames(dds)的第5个维度，coef=5，也可直接""指定;apeglm不allow contrast，所以要指定coef
+res_shrink <- lfcShrink(dds_norm, coef=2, type="apeglm") #最推荐apeglm算法;根据resultsNames(dds)的第5个维度，coef=5，也可直接""指定;apeglm不allow contrast，所以要指定coef
 pdf("MAplot.pdf", width = 6, height = 6) 
 plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="MA plot: ")
 dev.off()
@@ -124,10 +124,11 @@ ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
 dev.off()
 
 ### T1
-readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/raw data_readcount.xlsx', sheet = "T1")
-colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/colData.xlsx', sheet = "T1")
-condition <-factor(c("Mock", "Flag22","Pnic", "Flag22+Pnic"))
-replicate <- factor(c("One", "Two", "Three", "Four"))
+readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount.xlsx', sheet = "T1")
+colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData.xlsx', sheet = "T1")
+condition <-factor(c("Control", "Flag22","Pnic", "Flag22+Pnic"))
+replicate <- factor(c(1, 2, 3, 4))
+
 colData
 head(readscount)
 condition
@@ -137,10 +138,11 @@ keep <- rowSums(counts(dds) >= 10) >= 3
 dds <- dds[keep, ]
 
 vsdata <- vst(dds, blind=FALSE)
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate) 
-plotPCA(vsdata, intgroup = "condition")
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$condition) 
 plotPCA(vsdata, intgroup = "replicate")
+vsdata <- vst(dds, blind=FALSE)
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate) 
+plotPCA(vsdata, intgroup = "condition")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
@@ -151,14 +153,17 @@ res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Moc
 summary(res_Pnic) 
 summary(res_Flag22)
 summary(res_Flag22_Pnic)
+summary(res)
 
 res_PnicOrdered <- res_Pnic[order(res_Pnic$pvalue), ] #排序
 res_Flag22Ordered <- res_Flag22[order(res_Flag22$pvalue), ] #排序
 res_Flag22_PnicOrdered <- res_Flag22[order(res_Flag22_Pnic$pvalue), ] #排序
 
+
 sum(res_Pnic$padj<0.05, na.rm = TRUE)
 sum(res_Flag22$padj<0.05, na.rm = TRUE)
 sum(res_Flag22_Pnic$padj<0.05, na.rm = TRUE)
+sum(res$padj<0.05, na.rm = TRUE)
 
 res_Pnic_data <- merge(as.data.frame(res_Pnic),
                        as.data.frame(counts(dds_norm,normalize=TRUE)),
@@ -169,6 +174,9 @@ res_Flag22_data <- merge(as.data.frame(res_Flag22),
 res_Flag22_Pnic_data <- merge(as.data.frame(res_Flag22_Pnic),
                               as.data.frame(counts(dds_norm,normalize=TRUE)),
                               by="row.names",sort=FALSE)
+res_data <- merge(as.data.frame(res),
+                as.data.frame(counts(dds_norm,normalize=TRUE)),
+                by="row.names",sort=FALSE)
 
 up_PnicDEG <- subset(res_Pnic_data, padj < 0.05 & log2FoldChange > 1)
 down_PnicDEG <- subset(res_Pnic_data, padj < 0.05 & log2FoldChange < -1)
