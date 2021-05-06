@@ -30,9 +30,11 @@ keep <- rowSums(counts(dds) >= 10) >= 3
 dds <- dds[keep, ]
 
 vsdata <- vst(dds, blind=FALSE)
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition) 
+plotPCA(vsdata, intgroup = "replicate")
+vsdata <- vst(dds, blind=FALSE)
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$replicate) 
 plotPCA(vsdata, intgroup = "condition")
-plotPCA(vsdata, intgroup = "replicate")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
@@ -137,6 +139,7 @@ dds <- dds[keep, ]
 vsdata <- vst(dds, blind=FALSE)
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate) 
 plotPCA(vsdata, intgroup = "condition")
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$condition) 
 plotPCA(vsdata, intgroup = "replicate")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
@@ -242,7 +245,6 @@ dds <- dds[keep, ]
 vsdata <- vst(dds, blind=FALSE)
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate) 
 plotPCA(vsdata, intgroup = "condition")
-plotPCA(vsdata, intgroup = "replicate")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
@@ -347,7 +349,6 @@ dds <- dds[keep, ]
 vsdata <- vst(dds, blind=FALSE)
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate) 
 plotPCA(vsdata, intgroup = "condition")
-plotPCA(vsdata, intgroup = "replicate")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #标准化; 不剔除outliers; 与cookscutoff结果相同
 dds_norm$condition   #保证是levels是按照后一个比前一个即trt/untrt，否则需在results时指定
