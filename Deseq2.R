@@ -33,7 +33,7 @@ keep <- rowSums(counts(dds) >= 10) >= 3
 dds <- dds[keep, ]
 
 #PCA analysis
-vsdata <- vst(dds, blind=FALSE)
+vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition) 
 plotPCA(vsdata, intgroup = "replicate")
 vsdata <- vst(dds, blind=FALSE)
@@ -42,14 +42,15 @@ plotPCA(vsdata, intgroup = "condition")
 
 #Plot of expression values
 readscount_new = assay(vsdata)
+head(readscount_new)
 par(cex = 0.7)
 n.sample=ncol(readscount)
 if(n.sample>40) par(cex = 0.5)
 cols <- rainbow(n.sample*1.2)
 par(mfrow=c(2,2))
-boxplot(readscount, col = cols, main="expression value",las=2)
-boxplot(readscount_new, col = cols,main="expression value",las=2)
-hist(readscount_new, main = "Readscount")
+boxplot(readscount, col = cols, main="expression value",las=2, labels = FALSE)
+boxplot(readscount_new, col = cols,main="expression value",las=2, labels = FALSE)
+hist(readscount_new, main = "Readscount Histgram")
 
 # Differential expression analysis between each treatment and control
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
@@ -98,16 +99,13 @@ write.csv(up_Flag22_PnicDEG, "up_Flag22_Pnic.csv")
 write.csv(down_Flag22_PnicDEG, "down_Flag22_Pnic.csv")
 
 par(mar=c(8,5,2,2))
-boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2)
+boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2, outbg = "green",outpch = 25)
 
 resultsNames(dds_norm)  #看一下要shrink的维度;shrink数据更加紧凑,少了一项stat，但并未改变padj，但改变了foldchange
 res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") #最推荐apeglm算法;根据resultsNames(dds)的第5个维度，coef=5，也可直接""指定;apeglm不allow contrast，所以要指定coef
 pdf("MAplot.pdf", width = 6, height = 6) 
 plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="MA plot: ")
 dev.off()
-pdf("MAplot2.pdf", width = 6, height = 6) 
-plotMA(dds_norm, ylim=c(-10,10), alpha=0.1, main="MA plot: ")
-
 
 voldata_Flag22 <-read.csv(file = "all_Flag22.csv",header = TRUE, row.names =1)
 voldata_Pnic <-read.csv(file = "all_Pnic.csv",header = TRUE, row.names =1)
@@ -140,17 +138,17 @@ ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
 dev.off()
 
 
-### T1
-readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount.xlsx', sheet = "T1")
-colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData.xlsx', sheet = "T1")
-condition <-factor(c(rep(c("Control", "Flag22", "Pnic", "Flag22+Pnic"), 4)))
-replicate <- factor(c(rep("Rep1", 4), rep("Rep2", 4), rep("Rep3", 4), rep("Rep0", 4)))
+### T4
+readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount.xlsx', sheet = "T4")
+colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData.xlsx', sheet = "T4")
+condition <-factor(c(rep(c("Control", "Flag22", "Pnic", "Flag22+Pnic"), 2), c("Control", "Flag22", "Pnic"), c("Control", "Flag22", "Pnic", "Flag22+Pnic")))
+replicate <- factor(c(rep("Rep1", 4), rep("Rep2", 4), rep("Rep3", 3), rep("Rep0", 4)))
 
 colData
 head(readscount)
 condition
 replicate
-dds <- DESeqDataSetFromMatrix (readscount, colData, design = ~replicate + condition)
+dds <- DESeqDataSetFromMatrix (readscount, colData, design = ~replicate+condition)
 keep <- rowSums(counts(dds) >= 10) >= 3
 dds <- dds[keep, ]
 
@@ -207,53 +205,54 @@ up_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange >
 down_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange < -1)
 
 
-write.csv(res_Pnic_data, "T1_all_Pnic.csv") #全部基因不筛选，做火山图的背景
-write.csv(up_PnicDEG, "T1_up_Pnic.csv")
-write.csv(down_PnicDEG, "T1_down_Pnic.csv")
+write.csv(res_Pnic_data, "T4_all_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(up_PnicDEG, "T4_up_Pnic.csv")
+write.csv(down_PnicDEG, "T4_down_Pnic.csv")
 
-write.csv(res_Flag22_data, "T1_all_Flag22.csv") #全部基因不筛选，做火山图的背景
-write.csv(up_Flag22DEG, "T1_up_Flag22.csv")
-write.csv(down_Flag22DEG, "T1_down_Flag22.csv")
+write.csv(res_Flag22_data, "T4_all_Flag22.csv") #全部基因不筛选，做火山图的背景
+write.csv(up_Flag22DEG, "T4_up_Flag22.csv")
+write.csv(down_Flag22DEG, "T4_down_Flag22.csv")
 
-write.csv(res_Flag22_Pnic_data, "T1_all_Flag22_Pnic.csv") #全部基因不筛选，做火山图的背景
-write.csv(up_Flag22_PnicDEG, "T1_up_Flag22_Pnic.csv")
-write.csv(down_Flag22_PnicDEG, "T1_down_Flag22_Pnic.csv")
+write.csv(res_Flag22_Pnic_data, "T4_all_Flag22_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(up_Flag22_PnicDEG, "T4_up_Flag22_Pnic.csv")
+write.csv(down_Flag22_PnicDEG, "T4_down_Flag22_Pnic.csv")
 
 par(mar=c(8,5,2,2))
 boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2)
 
 resultsNames(dds_norm)  #看一下要shrink的维度;shrink数据更加紧凑,少了一项stat，但并未改变padj，但改变了foldchange
 res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") #最推荐apeglm算法;根据resultsNames(dds)的第5个维度，coef=5，也可直接""指定;apeglm不allow contrast，所以要指定coef
-pdf("T1_MAplot.pdf", width = 6, height = 6) 
-plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="T1_MA plot: ")
+pdf("T4_MAplot.pdf", width = 6, height = 6) 
+plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="T4_MA plot: ")
 dev.off()
 
-voldata_Flag22 <-read.csv(file = "T1_all_Flag22.csv",header = TRUE, row.names =1)
-voldata_Pnic <-read.csv(file = "T1_all_Pnic.csv",header = TRUE, row.names =1)
-voldata_Flag22_Pnic <-read.csv(file = "T1_all_Flag22_Pnic.csv",header = TRUE, row.names =1)
+voldata_Flag22 <-read.csv(file = "T4_all_Flag22.csv",header = TRUE, row.names =1)
+voldata_Pnic <-read.csv(file = "T4_all_Pnic.csv",header = TRUE, row.names =1)
+voldata_Flag22_Pnic <-read.csv(file = "T4_all_Flag22_Pnic.csv",header = TRUE, row.names =1)
 
 
-pdf("T1_volcano.pdf", width = 6.13, height = 5.18)
+pdf("T4_volcano.pdf", width = 6.13, height = 5.18)
 ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj))) +
-  geom_point(aes(color= significant)) +
+  geom_point(aes(color= "significant")) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
-  labs(title="T1_Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
+  labs(title="T4_Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
   geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
   geom_vline(xintercept=c(-1,1),linetype=4) +
   theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
 ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
-  labs(title="T1_Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
+  labs(title="T4_Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
   geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
   geom_vline(xintercept=c(-1,1),linetype=4) +
   theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
 ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
-  labs(title="T1_Volcano Plot_Flag22+Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
+  labs(title="T4_Volcano Plot_Flag22+Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
   geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
   geom_vline(xintercept=c(-1,1),linetype=4) +
   theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
 
 dev.off()
+
