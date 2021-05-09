@@ -54,11 +54,10 @@ hist(readscount_new, main = "Readscount Histgram")
 
 # Differential expression analysis between each treatment and control
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
-dds_norm$condition   #make sure levels are treat/untreat，否则需在results时指定
-res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-
+dds_norm$condition   #make sure levels are treat/untreat，otherwise needs to explicitely say it when define results
+res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
+res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
+res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
 summary(res_Pnic) 
 summary(res_Flag22)
 summary(res_Flag22_Pnic)
@@ -86,23 +85,23 @@ up_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange >
 down_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange < -1)
 
 
-write.csv(res_Pnic_data, "all_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(res_Pnic_data, "all_Pnic.csv") #Not filtered data, for volcano
 write.csv(up_PnicDEG, "up_Pnic.csv")
 write.csv(down_PnicDEG, "down_Pnic.csv")
 
-write.csv(res_Flag22_data, "all_Flag22.csv") #全部基因不筛选，做火山图的背景
+write.csv(res_Flag22_data, "all_Flag22.csv") #Not filtered data, for volcano
 write.csv(up_Flag22DEG, "up_Flag22.csv")
 write.csv(down_Flag22DEG, "down_Flag22.csv")
 
-write.csv(res_Flag22_Pnic_data, "all_Flag22_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(res_Flag22_Pnic_data, "all_Flag22_Pnic.csv") #Not filtered data, for volcano
 write.csv(up_Flag22_PnicDEG, "up_Flag22_Pnic.csv")
 write.csv(down_Flag22_PnicDEG, "down_Flag22_Pnic.csv")
 
 par(mar=c(8,5,2,2))
 boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2, outbg = "green",outpch = 25)
 
-resultsNames(dds_norm)  #看一下要shrink的维度;shrink数据更加紧凑,少了一项stat，但并未改变padj，但改变了foldchange
-res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") #最推荐apeglm算法;根据resultsNames(dds)的第5个维度，coef=5，也可直接""指定;apeglm不allow contrast，所以要指定coef
+resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
+res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") #apeglm algorithm; resultsNames(dds) fifth dimension，coef=5，;apeglm doesn't allow contrast, so has to have coef
 pdf("MAplot.pdf", width = 6, height = 6) 
 plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="MA plot: ")
 dev.off()
