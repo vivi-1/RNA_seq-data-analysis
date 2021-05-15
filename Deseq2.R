@@ -1,12 +1,12 @@
-##Installation of Deseq2
+##Installation of Deseq2, limma and apeglm
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #   install.packages("BiocManager")
 # BiocManager::install()
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #   install.packages("BiocManager")
 # BiocManager::install("DESeq2")
-BiocManager::install("limma")
-BiocManager::install("apeglm")
+#BiocManager::install("limma")
+#BiocManager::install("apeglm")
 
 lilbrary(readxl)
 library (DeSeq2)
