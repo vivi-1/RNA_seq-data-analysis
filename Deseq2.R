@@ -15,14 +15,14 @@ library(apeglm)
 library(ggplot2)
 
 setwd('/Users/weiwang/Desktop/DEGlist/Output')
-readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount.xlsx', sheet = "gene.description")
-colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData.xlsx', sheet = "Sheet1")
+readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount_no rep2.xlsx', sheet = "gene.description")
+colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData_no rep2.xlsx', sheet = "Sheet1")
 condition <-factor(c(rep(c("Control", "Flag22", "Pnic", "Flag22+Pnic"), 17), "Control", "Flag22", "Pnic", rep(c("Control","Flag22", "Pnic", "Flag22+Pnic"), 10)))
 timepoint <- factor(c(rep(c(rep("T1", 4), rep("T2", 4), rep("T3", 4), rep("T4", 4), rep("T5", 4), rep("T6", 4), rep("T7", 4)), 2), 
                         rep("T1", 4), rep("T2", 4), rep("T3", 4), rep("T4", 3), rep("T5", 4), rep("T6", 4), rep("T7", 4),
                           rep("T1", 4), rep("T2", 4), rep("T3", 4), rep("T4", 4), rep("T5", 4), rep("T6", 4), rep("T7", 4)))
 
-replicate <- factor(c(rep("Rep1",28 ), rep("Rep2",28), rep("Rep3",27), rep("Rep0",28)))
+replicate <- factor(c(rep("Rep1",28 ), rep("Rep3",27), rep("Rep0",28)))
 colData
 head(readscount)
 condition
@@ -32,10 +32,11 @@ dds <- DESeqDataSetFromMatrix (readscount, colData, design = ~timepoint + replic
 keep <- rowSums(counts(dds) >= 10) >= 3
 dds <- dds[keep, ]
 
-#PCA analysis
-vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition) 
-plotPCA(vsdata, intgroup = "replicate")
+#PCA analysis###
+#vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
+#assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition) 
+#plotPCA(vsdata, intgroup = "replicate")
+
 vsdata <- vst(dds, blind=FALSE)
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$replicate) 
 plotPCA(vsdata, intgroup = "condition")
@@ -55,8 +56,8 @@ hist(readscount_new, main = "Readscount Histgram")
 # Differential expression analysis between each treatment and control
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition   #make sure levels are treat/untreat，otherwise needs to explicitely say it when define results
-res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
-res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
+#res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
+#res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
 res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
 summary(res_Pnic) 
 summary(res_Flag22)
@@ -85,30 +86,46 @@ up_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange >
 down_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange < -1)
 
 
-write.csv(res_Pnic_data, "all_Pnic.csv") #Not filtered data, for volcano
-write.csv(up_PnicDEG, "up_Pnic.csv")
-write.csv(down_PnicDEG, "down_Pnic.csv")
+write.csv(res_Pnic_data, "all_Pnic_no rep2.csv") #Not filtered data, for volcano
+write.csv(up_PnicDEG, "up_Pnic_no rep2.csv")
+write.csv(down_PnicDEG, "down_Pnic_no rep2.csv")
 
-write.csv(res_Flag22_data, "all_Flag22.csv") #Not filtered data, for volcano
-write.csv(up_Flag22DEG, "up_Flag22.csv")
-write.csv(down_Flag22DEG, "down_Flag22.csv")
+write.csv(res_Flag22_data, "all_Flag22_no rep2.csv") #Not filtered data, for volcano
+write.csv(up_Flag22DEG, "up_Flag22_no rep2.csv")
+write.csv(down_Flag22DEG, "down_Flag22_no rep2.csv")
 
-write.csv(res_Flag22_Pnic_data, "all_Flag22_Pnic.csv") #Not filtered data, for volcano
-write.csv(up_Flag22_PnicDEG, "up_Flag22_Pnic.csv")
-write.csv(down_Flag22_PnicDEG, "down_Flag22_Pnic.csv")
+write.csv(res_Flag22_Pnic_data, "all_Flag22_Pnic_no rep2.csv") #Not filtered data, for volcano
+write.csv(up_Flag22_PnicDEG, "up_Flag22_Pnic_no rep2.csv")
+write.csv(down_Flag22_PnicDEG, "down_Flag22_Pnic_no rep2.csv")
 
 par(mar=c(8,5,2,2))
 boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2, outbg = "green",outpch = 25)
 
+# MA plot
+dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
-res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") #apeglm algorithm; resultsNames(dds) fifth dimension，coef=5，;apeglm doesn't allow contrast, so has to have coef
-pdf("MAplot.pdf", width = 6, height = 6) 
-plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="MA plot: ")
+res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm") 
+pdf("MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6) 
+plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_Pnic_Data_MA plot: ")
 dev.off()
 
-voldata_Flag22 <-read.csv(file = "all_Flag22.csv",header = TRUE, row.names =1)
-voldata_Pnic <-read.csv(file = "all_Pnic.csv",header = TRUE, row.names =1)
-voldata_Flag22_Pnic <-read.csv(file = "all_Flag22_Pnic.csv",header = TRUE, row.names =1)
+dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
+dds_norm$condition
+res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm") 
+pdf("MAplot_res_flag22_Pnic_data_no rep2.pdf", width = 6, height = 6) 
+plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Pnic_Data_MA plot: ")
+dev.off()
+
+dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
+dds_norm$condition
+res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm") 
+pdf("MAplot_res_flag22_data_no rep2.pdf", width = 6, height = 6) 
+plotMA(res_flag22_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Data_MA plot: ")
+dev.off()
+
+voldata_Flag22 <-read.csv(file = "all_Flag22_no rep2.csv",header = TRUE, row.names =1)
+voldata_Pnic <-read.csv(file = "all_Pnic_no rep2.csv",header = TRUE, row.names =1)
+voldata_Flag22_Pnic <-read.csv(file = "all_Flag22_Pnic_no rep2.csv",header = TRUE, row.names =1)
 
 
 pdf("volcano.pdf", width = 6.13, height = 5.18)
@@ -141,7 +158,7 @@ dev.off()
 readscount <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/raw data_readcount.xlsx', sheet = "T4")
 colData <- read_excel('/Users/weiwang/Desktop/DEGlist/Input/colData.xlsx', sheet = "T4")
 condition <-factor(c(rep(c("Control", "Flag22", "Pnic", "Flag22+Pnic"), 2), c("Control", "Flag22", "Pnic"), c("Control", "Flag22", "Pnic", "Flag22+Pnic")))
-replicate <- factor(c(rep("Rep1", 4), rep("Rep2", 4), rep("Rep3", 3), rep("Rep0", 4)))
+replicate <- factor(c(rep("Rep1", 4), rep("Rep3", 3), rep("Rep0", 4)))
 
 colData
 head(readscount)
@@ -172,10 +189,10 @@ hist(readscount_new, main = "Readscount")
 
 # Differentially expression analysis between each treatment and control
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers are not filtered out; same result with cookscutoff
-dds_norm$condition   #make sure levels are trt/untrt，否则需在results时指定
-res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
-res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05可指定padj; cookCutoff是不筛选outliers因为太多了
+dds_norm$condition 
+res_Pnic <- results(dds_norm, contrast = c("condition","Pnic","Control"), cooksCutoff = FALSE) 
+res_Flag22 <- results(dds_norm, contrast = c("condition","Flag22","Control"), cooksCutoff = FALSE) 
+res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE)
 
 summary(res_Pnic) 
 summary(res_Flag22)
@@ -204,23 +221,23 @@ up_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange >
 down_Flag22_PnicDEG <- subset(res_Flag22_Pnic_data, padj < 0.05 & log2FoldChange < -1)
 
 
-write.csv(res_Pnic_data, "T4_all_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(res_Pnic_data, "T4_all_Pnic.csv") 
 write.csv(up_PnicDEG, "T4_up_Pnic.csv")
 write.csv(down_PnicDEG, "T4_down_Pnic.csv")
 
-write.csv(res_Flag22_data, "T4_all_Flag22.csv") #全部基因不筛选，做火山图的背景
+write.csv(res_Flag22_data, "T4_all_Flag22.csv") 
 write.csv(up_Flag22DEG, "T4_up_Flag22.csv")
 write.csv(down_Flag22DEG, "T4_down_Flag22.csv")
 
-write.csv(res_Flag22_Pnic_data, "T4_all_Flag22_Pnic.csv") #全部基因不筛选，做火山图的背景
+write.csv(res_Flag22_Pnic_data, "T4_all_Flag22_Pnic.csv") 
 write.csv(up_Flag22_PnicDEG, "T4_up_Flag22_Pnic.csv")
 write.csv(down_Flag22_PnicDEG, "T4_down_Flag22_Pnic.csv")
 
 par(mar=c(8,5,2,2))
 boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2)
 
-resultsNames(dds_norm)  #看一下要shrink的维度;shrink数据更加紧凑,少了一项stat，但并未改变padj，但改变了foldchange
-res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") #最推荐apeglm算法;根据resultsNames(dds)的第5个维度，coef=5，也可直接""指定;apeglm不allow contrast，所以要指定coef
+resultsNames(dds_norm) 
+res_shrink <- lfcShrink(dds_norm, coef=5, type="apeglm") 
 pdf("T4_MAplot.pdf", width = 6, height = 6) 
 plotMA(res_shrink, ylim=c(-10,10), alpha=0.1, main="T4_MA plot: ")
 dev.off()
