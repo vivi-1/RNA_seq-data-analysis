@@ -32,28 +32,15 @@ def gene_ID_obtain(source, filename):
     df1 = DataFrame(new_rows_list,columns=['Gene_ID'])
     print("Write to file")
     df1.to_csv(filename, mode='a', index=False)
+    
 for i in range(1, 8):
-    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_down_Flag22_Pnic_no rep2.csv"
+    set = ["_down_Flag22_Pnic_no rep2.cs", "_up_Flag22_Pnic_no rep2.csv", "_down_Pnic_no rep2.csv", "_up_Pnic_no rep2.csv", "_down_Flag22_no rep2.csv", "_up_Flag22_no rep2.csv"]
     source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
-    gene_ID_obtain(source, filename)
-for i in range(1, 8):
-    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_up_Flag22_Pnic_no rep2.csv"
-    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
-    gene_ID_obtain(source, filename)
-for i in range(1, 8):
-    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_down_Pnic_no rep2.csv"
-    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
-    gene_ID_obtain(source, filename)
-for i in range(1, 8):
-    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_up_Pnic_no rep2.csv"
-    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
-    gene_ID_obtain(source, filename)
-for i in range(1, 8):
-    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_down_Flag22_no rep2.csv"
-    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
-    gene_ID_obtain(source, filename)
-for i in range(1, 8):
-    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_up_Flag22_no rep2.csv"
-    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
-    gene_ID_obtain(source, filename)
+    for j in set:
+        filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + j
+        gene_ID_obtain(source, filename)
+
+    
+    
+
  
