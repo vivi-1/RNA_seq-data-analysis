@@ -32,71 +32,28 @@ def gene_ID_obtain(source, filename):
     df1 = DataFrame(new_rows_list,columns=['Gene_ID'])
     print("Write to file")
     df1.to_csv(filename, mode='a', index=False)
-'''    
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T7_down_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T7_down_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T7_down_Flag22_no rep2.csv")
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T7_up_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T7_up_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T7_up_Flag22_no rep2.csv")
-
-    
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T6_down_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T6_down_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T6_down_Flag22_no rep2.csv")
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T6_up_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T6_up_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T6_up_Flag22_no rep2.csv")
-
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T5_down_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T5_down_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T5_down_Flag22_no rep2.csv")
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T5_up_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T5_up_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T5_up_Flag22_no rep2.csv")
-
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T4_down_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T4_down_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T4_down_Flag22_no rep2.csv")
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T4_up_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T4_up_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T4_up_Flag22_no rep2.csv")
-
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T3_down_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T3_down_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T3_down_Flag22_no rep2.csv")
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T3_up_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T3_up_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T3_up_Flag22_no rep2.csv")
-'''
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T2_down_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T2_down_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T2_down_Flag22_no rep2.csv")
-
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T2_up_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T2_up_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T2_up_Flag22_no rep2.csv")
-
-
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T1_down_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T1_down_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T1_down_Flag22_no rep2.csv")
-
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T1_up_Flag22_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T1_up_Pnic_no rep2.csv")
-gene_ID_obtain("/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx", "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T1_up_Flag22_no rep2.csv")
-
-
-
-
+for i in range(1, 8):
+    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_down_Flag22_Pnic_no rep2.csv"
+    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
+    gene_ID_obtain(source, filename)
+for i in range(1, 8):
+    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_up_Flag22_Pnic_no rep2.csv"
+    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
+    gene_ID_obtain(source, filename)
+for i in range(1, 8):
+    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_down_Pnic_no rep2.csv"
+    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
+    gene_ID_obtain(source, filename)
+for i in range(1, 8):
+    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_up_Pnic_no rep2.csv"
+    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
+    gene_ID_obtain(source, filename)
+for i in range(1, 8):
+    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_down_Flag22_no rep2.csv"
+    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
+    gene_ID_obtain(source, filename)
+for i in range(1, 8):
+    filename = "/Users/weiwang/Desktop/DEGlist/Output/Eliminate outlier rep2/T" + str(i) + "_up_Flag22_no rep2.csv"
+    source = "/Users/weiwang/Desktop/DEGlist/Input/Gene_ID_list.xlsx"
+    gene_ID_obtain(source, filename)
+ 
