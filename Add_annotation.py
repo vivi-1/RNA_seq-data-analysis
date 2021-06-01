@@ -3,11 +3,6 @@ import pandas
 from pandas import DataFrame
 import os
 
-import xlrd
-import re
-import xlwt
-
-
 def intersectGenes(A,B): # AnB
     return numpy.intersect1d(A,B)
 
