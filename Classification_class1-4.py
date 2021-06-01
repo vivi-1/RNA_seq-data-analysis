@@ -59,25 +59,17 @@ def class2(currentDirectory):#Class two:[Uflag22,UPnic]-[Dflag22]
         UPnicName = "T" + str(i) + "_up_Pnic_no rep2.csv"
         Uflag22Name = "T" + str(i) + "_up_Flag22_no rep2.csv"
         Dflag22Name = "T" + str(i) + "_down_Flag22_no rep2.csv"
-        print(UPnicName)
-        print(Uflag22Name)
         UPnic = pandas.read_csv(UPnicName)
         UPnic = UPnic['Gene_ID']
         len1 = len(UPnic)
-        print(UPnic)
-        print(len1)
         Uflag22 = pandas.read_csv(Uflag22Name)
         Uflag22 = Uflag22['Gene_ID']
-        print(Uflag22)
         Dflag22 = pandas.read_csv(Dflag22Name)
         Dflag22 = Dflag22['Gene_ID']
-        print(Dflag22)
         result = []
         for j in range(0, len1):
             if (UPnic[j] in Uflag22.values) and (UPnic[j] not in Dflag22.values):
                 result.append(UPnic[j])
-        print(result)
-
         DataFrame({"Gene_ID":result}).to_excel(excelFile,sheet_name=str(i))
     excelFile.save()
 
