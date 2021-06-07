@@ -296,24 +296,6 @@ for j in range(0,len(read_groupfile.sheet_names)):
 comparisonData.save()
 
 
-# TODO: "comparedData" = compare(highlightedFile, groupFile)
-## Define compare(highlightedFile, groupFile)
-
-
-
-# comparisonData = [][]
-# 
-#highlightedGene_IDs = getData(highlightedFile,0)
-#for j in range(0,length(groupFileSheetNumbers)):
-#   currentData = getData(groupFile,j)
-#   for i in range(0,length(highlightedGene_IDs):
-#       if currentData.ismember(highlightedGene_ID[i]):
-#           comparisionData[i][j] = j
-#       else:
-#           comparisionData[i][j] = 0
-#savedata.to_excel(pandas.to_excel(comparisonData))
-# TODO: save "comparedData"
-
 
 
 
