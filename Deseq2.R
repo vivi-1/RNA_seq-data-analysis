@@ -133,23 +133,23 @@ ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
   labs(title="Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
+  geom_hline(yintercept=1.3,linetype=4) +  
   geom_vline(xintercept=c(-1,1),linetype=4) +
-  theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
+  theme_bw() + theme(panel.grid = element_blank()) 
 ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
   labs(title="Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
+  geom_hline(yintercept=1.3,linetype=4) +  
   geom_vline(xintercept=c(-1,1),linetype=4) +
-  theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
+  theme_bw() + theme(panel.grid = element_blank())  
 ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
   labs(title="Volcano Plot_Flag22+Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
+  geom_hline(yintercept=1.3,linetype=4) + 
   geom_vline(xintercept=c(-1,1),linetype=4) +
-  theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
+  theme_bw() + theme(panel.grid = element_blank())  
 
 dev.off()
 
@@ -272,23 +272,23 @@ ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
   labs(title="T4_Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
+  geom_hline(yintercept=1.3,linetype=4) +  
   geom_vline(xintercept=c(-1,1),linetype=4) +
-  theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
+  theme_bw() + theme(panel.grid = element_blank()) 
 ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
   labs(title="T4_Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
+  geom_hline(yintercept=1.3,linetype=4) + 
   geom_vline(xintercept=c(-1,1),linetype=4) +
-  theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
+  theme_bw() + theme(panel.grid = element_blank())  
 ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj))) +
   geom_point(aes(color='significant')) +
   scale_color_manual(values=c("#546de5", "#d2dae2","#ff4757")) + 
   labs(title="T4_Volcano Plot_Flag22+Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=1.3,linetype=4) +  #反对数,代表0.05的线
+  geom_hline(yintercept=1.3,linetype=4) + 
   geom_vline(xintercept=c(-1,1),linetype=4) +
-  theme_bw() + theme(panel.grid = element_blank())  #主次网格线均为空白
+  theme_bw() + theme(panel.grid = element_blank())  
 dev.off()
 
 ### T5
