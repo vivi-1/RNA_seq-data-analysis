@@ -110,12 +110,17 @@ par(mar=c(8,5,2,2))
 boxplot(log10(assays(dds_norm)[["cooks"]]), range=0, las=2, outbg = "green",outpch = 25)
 
 #Venn plot
-df1<-read.csv("all_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
+df1<-read.csv("up_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
 df2<-read.csv("down_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
-df3<-read.csv("up_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
+df3<-read.csv("up_Flag22_no rep2.csv",header = T,stringsAsFactors = F)
+df4<-read.csv("down_Flag22_no rep2.csv",header = T,stringsAsFactors = F)
+df5<-read.csv("up_Flag22_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
+df6<-read.csv("down_Flag22_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
 library(ggvenn)
-x<-list(all=df1$x,down=df2$x,up=df3$x)
-ggvenn(x,c("all","up","down"),set_name_size = 3,fill_alpha = 1,text_size = 3)
+x<-list(PnicUp=df1$Row.names,Flag22Up=df3$Row.names,Flag22_PnicUp=df5$Row.names)
+ggvenn(x,c("PnicUp","Flag22Up","Flag22_PnicUp"),set_name_size = 3,fill_alpha = 1,text_size = 3)
+x<-list(PnicDown=df2$Row.names,Flag22Down=df4$Row.names,Flag22_PnicDown=df6$Row.names)
+ggvenn(x,c("PnicDown","Flag22Down","Flag22_PnicDown"),set_name_size = 3,fill_alpha = 1,text_size = 3)
 
 
 
@@ -144,24 +149,26 @@ dev.off()
 voldata_Flag22 <-read.csv(file = "all_Flag22_no rep2.csv",header = TRUE, row.names =1)
 voldata_Pnic <-read.csv(file = "all_Pnic_no rep2.csv",header = TRUE, row.names =1)
 voldata_Flag22_Pnic <-read.csv(file = "all_Flag22_Pnic_no rep2.csv",header = TRUE, row.names =1)
+
 voldata_Flag22$change<-as.factor(ifelse(
-  voldata_Flag22$padj<0.01 & abs(voldata_Flag22$log2FoldChange)>1,
-  ifelse(voldata_Flag22$log2FoldChange>1, "Up", "Down"),
-  "No Diff"
+                                        voldata_Flag22$padj<0.05 & abs(voldata_Flag22$log2FoldChange)>1,
+                                        ifelse(voldata_Flag22$log2FoldChange>1, "Up", "Down"),
+                                        "NoDiff"
+                                )
 )
-)
+
 voldata_Pnic$change<-as.factor(ifelse(
-  voldata_Pnic$padj<0.01 & abs(voldata_Pnic$log2FoldChange)>1,
+  voldata_Pnic$padj<0.05 & abs(voldata_Pnic$log2FoldChange)>1,
   ifelse(voldata_Pnic$log2FoldChange>1, "Up", "Down"),
-  "No Diff"
-)
+  "NoDiff"
+  )
 )
 
 voldata_Flag22_Pnic$change<-as.factor(ifelse(
-  voldata_Flag22_Pnic$padj<0.01 & abs(voldata_Flag22_Pnic$log2FoldChange)>1,
+  voldata_Flag22_Pnic$padj<0.05 & abs(voldata_Flag22_Pnic$log2FoldChange)>1,
   ifelse(voldata_Flag22_Pnic$log2FoldChange>1, "Up", "Down"),
-  "No Diff"
-)
+  "NoDiff"
+  )
 )
 
 pdf("volcano.pdf", width = 6.13, height = 5.18)
@@ -169,7 +176,7 @@ ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj), color=change
   geom_point(alpha=0.8, size=1) +
   scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
   labs(title="Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.01),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
   theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
 
@@ -177,15 +184,15 @@ ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change))
   geom_point(alpha=0.8, size=1) +
   scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
   labs(title="Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.01),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
   theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
 
 ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
   scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
-  labs(title="Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.01),linetype=4, col="gray", lwd=0.5) +  
+  labs(title="Volcano Plot_Flag22_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
   theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
 
