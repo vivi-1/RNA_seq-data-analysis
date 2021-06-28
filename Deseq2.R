@@ -11,17 +11,17 @@
 library(readxl)
 library (DeSeq2)
 library(limma)
-library(apeglm)  
+library(apeglm)
 library(ggplot2)
 
 setwd('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Output')
 readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/raw data_readcount_no rep2.xlsx', sheet = "gene.description")
 geneIDs<-read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/Gene_ID_list.xlsx', sheet = "Sheet1")
-row.names(readscount) <- geneIDs$geneID #Assigning row names from geneIDs 
+row.names(readscount) <- geneIDs$geneID #Assigning row names from geneIDs
 
 colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/colData_no rep2.xlsx', sheet = "Sheet1")
 condition <-factor(c(rep(c("Control", "Flag22", "Pnic", "Flag22+Pnic"), 17), "Control", "Flag22", "Pnic", rep(c("Control","Flag22", "Pnic", "Flag22+Pnic"), 10)))
-timepoint <- factor(c(rep(c(rep("T1", 4), rep("T2", 4), rep("T3", 4), rep("T4", 4), rep("T5", 4), rep("T6", 4), rep("T7", 4)), 2), 
+timepoint <- factor(c(rep(c(rep("T1", 4), rep("T2", 4), rep("T3", 4), rep("T4", 4), rep("T5", 4), rep("T6", 4), rep("T7", 4)), 2),
                         rep("T1", 4), rep("T2", 4), rep("T3", 4), rep("T4", 3), rep("T5", 4), rep("T6", 4), rep("T7", 4),
                           rep("T1", 4), rep("T2", 4), rep("T3", 4), rep("T4", 4), rep("T5", 4), rep("T6", 4), rep("T7", 4)))
 
@@ -37,11 +37,11 @@ dds <- dds[keep, ]
 
 #PCA analysis###
 vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition) 
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition)
 plotPCA(vsdata, intgroup = "replicate")
 
 vsdata <- vst(dds, blind=FALSE)
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$replicate) 
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$replicate)
 plotPCA(vsdata, intgroup = "condition")
 
 #Plot of expression values
@@ -67,7 +67,7 @@ dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers i
 dds_norm$condition   #make sure levels are treat/untreat，otherwise needs to explicitely say it when define results
 res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
 
-summary(res_Pnic) 
+summary(res_Pnic)
 summary(res_Flag22)
 summary(res_Flag22_Pnic)
 
@@ -127,22 +127,22 @@ ggvenn(x,c("PnicDown","Flag22Down","Flag22_PnicDown"),set_name_size = 3,fill_alp
 # MA plot
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
-res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm") 
-pdf("MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6) 
+res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
+pdf("MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_Pnic_Data_MA plot: ")
 dev.off()
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
-res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm") 
-pdf("MAplot_res_flag22_Pnic_data_no rep2.pdf", width = 6, height = 6) 
+res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm")
+pdf("MAplot_res_flag22_Pnic_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Pnic_Data_MA plot: ")
 dev.off()
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
-res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm") 
-pdf("MAplot_res_flag22_data_no rep2.pdf", width = 6, height = 6) 
+res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm")
+pdf("MAplot_res_flag22_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_flag22_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Data_MA plot: ")
 dev.off()
 
@@ -174,27 +174,27 @@ voldata_Flag22_Pnic$change<-as.factor(ifelse(
 pdf("volcano.pdf", width = 6.13, height = 5.18)
 ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
-  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
   labs(title="Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-  theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+  theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
 ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
-  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
   labs(title="Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-  theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+  theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
 ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
-  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
   labs(title="Volcano Plot_Flag22_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-  theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+  theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
 dev.off()
 
@@ -202,10 +202,10 @@ dev.off()
 
 
 
-### T4
+### T4 (lack one sample so analysis it alone)
 readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/raw data_readcount_no rep2.xlsx', sheet = "T4")
 colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/colData_no rep2.xlsx', sheet = "T4")
-row.names(readscount) <- geneIDs$geneID #Assigning row names from geneIDs 
+row.names(readscount) <- geneIDs$geneID #Assigning row names from geneIDs
 condition <-factor(c(c("Control", "Flag22", "Pnic", "Flag22+Pnic"), c("Control", "Flag22", "Pnic"), c("Control", "Flag22", "Pnic", "Flag22+Pnic")))
 replicate <- factor(c(rep("Rep1", 4), rep("Rep3", 3), rep("Rep0", 4)))
 colData
@@ -218,11 +218,11 @@ dds <- dds[keep, ]
 
 #PCA analysis###
 vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$condition) 
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$condition)
 plotPCA(vsdata, intgroup = "replicate")
 
 vsdata <- vst(dds, blind=FALSE)
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$replicate) 
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$replicate)
 plotPCA(vsdata, intgroup = "condition")
 
 #Plot of expression values
@@ -248,7 +248,7 @@ dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers i
 dds_norm$condition   #make sure levels are treat/untreat，otherwise needs to explicitely say it when define results
 res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
 
-summary(res_Pnic) 
+summary(res_Pnic)
 summary(res_Flag22)
 summary(res_Flag22_Pnic)
 
@@ -307,22 +307,22 @@ ggvenn(x,c("PnicDown","Flag22Down","Flag22_PnicDown"),set_name_size = 3,fill_alp
 # MA plot
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
-res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm") 
-pdf("T4_MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6) 
+res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
+pdf("T4_MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="T4_res_Pnic_Data_MA plot: ")
 dev.off()
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
-res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm") 
-pdf("T4_MAplot_res_flag22_Pnic_data_no rep2.pdf", width = 6, height = 6) 
+res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm")
+pdf("T4_MAplot_res_flag22_Pnic_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Pnic_Data_MA plot: ")
 dev.off()
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
-res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm") 
-pdf("T4_MAplot_res_flag22_data_no rep2.pdf", width = 6, height = 6) 
+res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm")
+pdf("T4_MAplot_res_flag22_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_flag22_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Data_MA plot: ")
 dev.off()
 
@@ -354,27 +354,27 @@ voldata_Flag22_Pnic$change<-as.factor(ifelse(
 pdf("T4_volcano.pdf", width = 6.13, height = 5.18)
 ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
-  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
   labs(title="T4_Volcano Plot_Flag22: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-  theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+  theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
 ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
-  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
   labs(title="T4_Volcano Plot_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-  theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+  theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
 ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
-  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+  scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
   labs(title="T4_Volcano Plot_Flag22_Pnic: ", x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+  geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
   geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-  theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+  theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
 dev.off()
 
@@ -385,7 +385,7 @@ numberList<-c("T1", "T2", "T3", "T5", "T6", "T7")
 for (time in numberList) {
   print(time)
   readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/raw data_readcount_no rep2.xlsx', sheet = time)
-  row.names(readscount) <- geneIDs$geneID #Assigning row names from geneIDs 
+  row.names(readscount) <- geneIDs$geneID #Assigning row names from geneIDs
   colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/colData_no rep2.xlsx', sheet = time)
   condition <-factor(c(rep(c("Control", "Flag22", "Pnic", "Flag22+Pnic"), 3)))
   replicate <- factor(c(rep("Rep1", 4), rep("Rep3", 4), rep("Rep0", 4)))
@@ -399,11 +399,11 @@ for (time in numberList) {
 
 #PCA analysis###
   vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
-  assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$condition) 
+  assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$condition)
   plotPCA(vsdata, intgroup = "replicate")
 
   vsdata <- vst(dds, blind=FALSE)
-  assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate) 
+  assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate)
   plotPCA(vsdata, intgroup = "condition")
 
 #Plot of expression values
@@ -429,7 +429,7 @@ for (time in numberList) {
   dds_norm$condition   #make sure levels are treat/untreat，otherwise needs to explicitely say it when define results
   res_Flag22_Pnic <- results(dds_norm, contrast = c("condition","Flag22+Pnic","Control"), cooksCutoff = FALSE) #alpha=0.05 for padj; cookCutoff (for filter out outlier)= false cuz there are lots of outlier
 
-  summary(res_Pnic) 
+  summary(res_Pnic)
   summary(res_Flag22)
   summary(res_Flag22_Pnic)
 
@@ -488,22 +488,22 @@ for (time in numberList) {
 # MA plot
   dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
   resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
-  res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm") 
-  pdf(paste(time,"_MAplot_res_Pnic_data_no rep2.pdf"), width = 6, height = 6) 
+  res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
+  pdf(paste(time,"_MAplot_res_Pnic_data_no rep2.pdf"), width = 6, height = 6)
   plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="T4_res_Pnic_Data_MA plot: ")
   dev.off()
 
   dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
   dds_norm$condition
-  res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm") 
-  pdf(paste(time,"_MAplot_res_flag22_Pnic_data_no rep2.pdf"), width = 6, height = 6) 
+  res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm")
+  pdf(paste(time,"_MAplot_res_flag22_Pnic_data_no rep2.pdf"), width = 6, height = 6)
   plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Pnic_Data_MA plot: ")
   dev.off()
 
   dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
   dds_norm$condition
-  res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm") 
-  pdf(paste(time,"_MAplot_res_flag22_data_no rep2.pdf"), width = 6, height = 6) 
+  res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm")
+  pdf(paste(time,"_MAplot_res_flag22_data_no rep2.pdf"), width = 6, height = 6)
   plotMA(res_flag22_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Data_MA plot: ")
   dev.off()
 
@@ -535,27 +535,27 @@ for (time in numberList) {
   pdf(paste(time,"_volcano.pdf"), width = 6.13, height = 5.18)
   ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
     geom_point(alpha=0.8, size=1) +
-    scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+    scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
     labs(title=paste(time,"_Volcano Plot_Flag22: "), x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-    geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+    geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
     geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-    theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+    theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
   ggplot(data=voldata_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
     geom_point(alpha=0.8, size=1) +
-    scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+    scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
     labs(title=paste(time,"_Volcano Plot_Pnic: "), x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-    geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+    geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
     geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-    theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+    theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
   ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
     geom_point(alpha=0.8, size=1) +
-    scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) + 
+    scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
     labs(title=paste(time,"_Volcano Plot_Flag22_Pnic: "), x=expression(log[2](FC), y=expression(-log[10](padj)))) +
-    geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +  
+    geom_hline(yintercept=-log10(0.05),linetype=4, col="gray", lwd=0.5) +
     geom_vline(xintercept=c(-1,1),linetype=4, col="gray", lwd=0.5) +
-    theme_bw(base_size=15) + theme(panel.grid = element_blank()) 
+    theme_bw(base_size=15) + theme(panel.grid = element_blank())
 
   dev.off()
 }
