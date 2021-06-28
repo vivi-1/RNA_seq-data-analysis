@@ -218,11 +218,11 @@ dds <- dds[keep, ]
 
 #PCA analysis###
 vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition) 
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$condition) 
 plotPCA(vsdata, intgroup = "replicate")
 
 vsdata <- vst(dds, blind=FALSE)
-assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$replicate) 
+assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$replicate) 
 plotPCA(vsdata, intgroup = "condition")
 
 #Plot of expression values
