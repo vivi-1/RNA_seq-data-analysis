@@ -26,12 +26,9 @@ def GOdic():
         for element in geneIDList:
             temp = element.split("/")
             geneID.append(temp)
-        print(geneID)
         for i in range(0, len(geneID)):
-            print(geneID[i])
             if GOList[i] in GoDictionary:
                 for j in geneID[i]:
-                    print(j, GoDictionary[GOList[i]])
                     GoDictionary[GOList[i]].append(j)
             if GOList[i] not in GoDictionary:
                 for j in geneID[i]:
