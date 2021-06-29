@@ -41,8 +41,9 @@ def getGenelistWithGo():
     workbook = xlsxwriter.Workbook('/Users/weiwang/Desktop/GOterms_GeneList.xlsx')
     worksheet = workbook.add_worksheet("GO terms")
     row=0
+    print("saving...")
     for i in GoIDListWithGeneList:
-        print("saving...")
+        print(row)
         if row==0:
             worksheet.write(row, 0, "GoID")
             worksheet.write(row, 1, "GeneID")
