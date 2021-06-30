@@ -14,6 +14,8 @@ options (future.globals.maxSize = 4000 * 1024^7) #increase memory consumption
 
 #Use SSH to access tinkercliff and do the map there
 #https://video.vt.edu/media/ARCA+Accessing+clusters+from+the+command+line+via+SSH/1_nkojfb72/176584251
+#DOWNLOAD from cload:
+#rsync -v wwei6@tinkercliffs2.arc.vt.edu:Pnic_vs_Water.png .
 
 temp<- read_excel("PnicHeatMapData.xlsx", sheet = "Pnic")
 heatmap_data <- temp[,-1]

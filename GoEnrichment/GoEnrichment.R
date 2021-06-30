@@ -13,7 +13,6 @@ FlagDowngene<-as.factor(FlagDowngene['Row.names'])
 Flag_PnicUpgene<-as.factor(Flag_PnicUpgene['Row.names'])
 Flag_PnicDowngene<-as.factor(Flag_PnicDowngene['Row.names'])
 
-
 #import annotation
 term2gene <- read.csv("/Users/weiwang/Desktop/GoEnrichment/GOterms annotations.csv",header=T,sep=",")
 term2name <- read.csv("/Users/weiwang/Desktop/GoEnrichment/GOterms_GeneList1.csv",header=F,sep=",")
