@@ -17,6 +17,10 @@ options(bitmapType='cairo')
 #DOWNLOAD from ARC:
 #scp wwei6@tinkercliffs2.arc.vt.edu:/home/wwei6/Pnic_vs_Water1.png Pnic_vs_Water1.png
 #run on ARC code needs to be modified:  
+
+#upload file to ARC:
+#scp local address/file wwei6@tinkercliffs2.arc.vt.edu
+
 # Normalized Counts
 temp<- read_excel("HeatMapData.xlsx", sheet = "PR_GOI")
 temp <- data.frame(temp)
