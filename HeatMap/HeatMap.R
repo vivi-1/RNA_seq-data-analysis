@@ -44,15 +44,44 @@ save_pheatmap_png <- function(x, filename, width=4800, height=4000, res = 700) {
 
 save_pheatmap_png(All_my_heatmap, "all_my_heatmap.png")
 
-#Pnic vs Mock
+#Each treatment vs Mock
+
+Mockdata<-as.data.frame(subset(data_subset,select = T1NCMock1:T7NCMock4))
+Pnicdata<-as.data.frame(subset(data_subset,select = T1NCpath1:T7NCpath4))
+flagdata<-as.data.frame(subset(data_subset,select = T1NCflag1:T7NCflag4))
+flpadata<-as.data.frame(subset(data_subset,select = T1NCflpa1:T7NCflpa4))
+Pnicdata1<-as.matrix(cbind(Mockdata,Pnicdata))
+flagdata1<-as.matrix(cbind(Mockdata,flagdata))
+flpadata1<-as.matrix(cbind(Mockdata,flpadata))
+
 anno_col=data.frame(sampleType=factor(c(rep('Mock',21), rep('Pnic',21))))
 ann_color=list(sampleType=c(Mock='#cd0000', Pnic='#3a5fcd'))
 
-data<-data_subset[c('T1NCMock1':'T1NCpath1','T1NCpath1':'T1NCflag1')]
+Pnic_my_heatmap_noCluster <- pheatmap(Pnicdata1, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = F, main = "Pnic vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
+Pnic_my_heatmap_Cluster<-pheatmap(Pnicdata1, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = T, main = "Pnic vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
 
-Pnic_my_heatmap_noCluster <- pheatmap(data_subset[], scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = F, main = "Pnic vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
-Pnic_my_heatmap_Cluster<-pheatmap(data_subset, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = T, main = "Pnic vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
 
+anno_col=data.frame(sampleType=factor(c(rep('Mock',21), rep('Flag',20))))
+ann_color=list(sampleType=c(Mock='#cd0000', Flag='#3a5fcd'))
+
+Flag_my_heatmap_noCluster <- pheatmap(flagdata1, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = F, main = "Flag22 vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
+Flag_my_heatmap_Cluster<-pheatmap(flagdata1, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = T, main = "Flag22 vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
+
+
+anno_col=data.frame(sampleType=factor(c(rep('Mock',21), rep('FlagPnic',21))))
+ann_color=list(sampleType=c(Mock='#cd0000', FlagPnic='#3a5fcd'))
+
+FlagPnic_my_heatmap_noCluster <- pheatmap(flpadata1, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = F, main = "Flag_Pnic vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
+FlagPnic_my_heatmap_Cluster<-pheatmap(flpadata1, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = T, main = "Flag_Pnic vs Mock heatmap",legend_breaks=c(4,12),fontsize=8, fontsize_row=6, fontsize_col=4)
+
+save_pheatmap_png(Pnic_my_heatmap_noCluster, "Pnic_noCluster_heatmap.png")
+save_pheatmap_png(Pnic_my_heatmap_Cluster, "Pnic_Cluster_heatmap.png")
+
+save_pheatmap_png(Flag_my_heatmap_noCluster, "Flag_noCluster_heatmap.png")
+save_pheatmap_png(Flag_my_heatmap_Cluster, "Flag_Cluster_heatmap.png")
+
+save_pheatmap_png(FlagPnic_my_heatmap_noCluster, "FlagPnic_noCluster_heatmap.png")
+save_pheatmap_png(FlagPnic_my_heatmap_Cluster, "FlagPnic_Cluster_heatmap.png")
 
 #temp<- read_excel("PnicHeatMapData.xlsx", sheet = "Pnic")
 #heatmap_data <- temp[,-1]
