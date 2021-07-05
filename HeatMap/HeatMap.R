@@ -22,7 +22,7 @@ options(bitmapType='cairo')
 #scp local address/file wwei6@tinkercliffs2.arc.vt.edu
 
 # Normalized Counts
-temp<- read_excel("HeatMapData.xlsx", sheet = "PR_GOI")
+temp <- read_excel("log2FCHeatMap.xlsx", sheet = "log2FC")
 temp <- data.frame(temp)
 
 rownames(temp) <- temp[, 1]
@@ -30,7 +30,7 @@ temp <- temp[, -1]
 data_subset <- as.matrix(temp)
 
 
-#cat_df = data.frame("category" = c(rep('Mock',21), rep('Pnic',21)))
+#cat_df = data.frame(category = c(rep('Mock',21), rep('Pnic',21)))
 
 
 color<-colorRampPalette(c('#436eee','white','#EE0000'))(100)
@@ -87,16 +87,26 @@ save_pheatmap_png(Flag_my_heatmap_Cluster, "Flag_Cluster_heatmap.png")
 save_pheatmap_png(FlagPnic_my_heatmap_noCluster, "FlagPnic_noCluster_heatmap.png")
 save_pheatmap_png(FlagPnic_my_heatmap_Cluster, "FlagPnic_Cluster_heatmap.png")
 
-#temp<- read_excel("PnicHeatMapData.xlsx", sheet = "Pnic")
-#heatmap_data <- temp[,-1]
-#row.names(heatmap_data) <- temp$Gene_ID
-#summary(c(heatmap_data))
+#Using log2FC
+temp <- read_excel("log2FCHeatMap.xlsx", sheet = "nutrient_GOI")
+temp <- data.frame(temp)
+
+rownames(temp) <- temp[, 1]
+temp <- temp[, -1]
+data_subset <- as.matrix(temp)
+
 
 #color<-colorRampPalette(c('#436eee','white','#EE0000'))(100)
-#png(filename = "Pnic_vs_Water2.png", height=4000, width=3000, res=500, units="px")
-#anno_col=data.frame(sampleType=factor(c(rep('Mock',21), rep('Pnic',21))))
-#ann_color=list(sampleType=c(Mock='#cd0000', Pnic='#3a5fcd'))
-#pheatmap(heatmap_data, scale="none", color=color, annotation_col=anno_col, annotation_colors = ann_color,
-         #fontsize = 4,fontsize_row = 4,show_colnames = F, main = "Pnic vs Mock heatmap",
-         #legend_breaks=c(4,12),legend_labels = c('low','high'))
-#dev.off()
+anno_col=data.frame(sampleType=factor(c('Pnic','Flag22','Flag22_Pnic')))
+rownames(anno_col)=colnames(data_subset)
+ann_color=list(sampleType=c(Pnic='#3a5fcd', Flag22='#00FF00', Flag22_Pnic='#ffa500'))
+color<-colorRampPalette(c('#436eee','white','#EE0000'))(100)
+All_my_heatmap <- pheatmap(data_subset, scale="none", color = color, annotation_col=anno_col, annotation_colors = ann_color, show_colnames=T, cluster_rows = F, main = "Treatments vs Mock heatmap")
+save_pheatmap_png <- function(x, filename, width=480, height=400, res = 10000) {
+  png(filename, width = width, height = height, res = res)
+  grid::grid.newpage()
+  grid::grid.draw(x$gtable)
+  dev.off()
+}
+
+save_pheatmap_png(All_my_heatmap, "nutrient_genes_heatmap.png")
