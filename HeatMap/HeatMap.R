@@ -16,9 +16,9 @@ options(bitmapType='cairo')
 #https://video.vt.edu/media/ARCA+Accessing+clusters+from+the+command+line+via+SSH/1_nkojfb72/176584251
 #DOWNLOAD from ARC:
 #scp wwei6@tinkercliffs2.arc.vt.edu:/home/wwei6/Pnic_vs_Water1.png Pnic_vs_Water1.png
-#run on ARC code needs to be modified:  
+#run on ARC code needs to be modified:
 
-#upload file to ARC:
+#UPLOAD file to ARC:
 #scp local address/file wwei6@tinkercliffs2.arc.vt.edu
 
 # Normalized Counts
