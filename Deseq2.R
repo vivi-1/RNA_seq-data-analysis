@@ -125,7 +125,6 @@ ggvenn(x,c("PnicDown","Flag22Down","Flag22_PnicDown"),set_name_size = 3,fill_alp
 
 
 # MA plot
-dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
 res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
 pdf("MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6)
