@@ -32,7 +32,6 @@ data_subset <- as.matrix(temp)
 
 #cat_df = data.frame(category = c(rep('Mock',21), rep('Pnic',21)))
 
-
 color<-colorRampPalette(c('#436eee','white','#EE0000'))(100)
 anno_col=data.frame(sampleType=factor(c(rep('Mock',21), rep('Pnic',21), rep('Flag22', 20), rep('Flag22_Pnic', 21))))
 rownames(anno_col)=colnames(data_subset)
@@ -94,7 +93,6 @@ temp <- data.frame(temp)
 rownames(temp) <- temp[, 1]
 temp <- temp[, -1]
 data_subset <- as.matrix(temp)
-
 
 #color<-colorRampPalette(c('#436eee','white','#EE0000'))(100)
 anno_col=data.frame(sampleType=factor(c('Pnic','Flag22','Flag22_Pnic')))
