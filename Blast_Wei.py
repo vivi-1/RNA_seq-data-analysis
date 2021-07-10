@@ -14,7 +14,7 @@ from Bio.Blast import NCBIWWW
 import os
 # Change the directory to file location
 os.getcwd()
-os.chdir('/Users/vivi/Desktop') ## please change it to your directory
+os.chdir('/Users/weiwang') ## please change it to your directory
 fasta_string = open("MultipleBlast.txt").read()
 print('read in data')
 save_file = open("out.xml", "w")
@@ -47,4 +47,3 @@ for alignment in blast_record.alignments:
             print(hsp.query[0:75] + "...") ## print out first 75 results
             print(hsp.match[0:75] + "...")
             print(hsp.sbjct[0:75] + "...")
-
