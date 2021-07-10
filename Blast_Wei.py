@@ -5,10 +5,7 @@ Created on Thu Jun 11 16:41:18 2020
 
 @author: vivi
 """
-
-
 ## Import the modules
-
 import Bio.Blast
 from Bio.Blast import NCBIWWW
 import os
