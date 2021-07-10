@@ -19,7 +19,7 @@ options(bitmapType='cairo')
 #run on ARC code needs to be modified:
 
 #UPLOAD file to ARC:
-#scp local address/file wwei6@tinkercliffs2.arc.vt.edu
+#scp local address/file wwei6@tinkercliffs2.arc.vt.edu:
 
 # Normalized Counts
 temp <- read_excel("log2FCHeatMap.xlsx", sheet = "log2FC")
