@@ -30,6 +30,11 @@ upset(xPnicUpgene)
 
 GOI <- read.csv("/Users/weiwang/Desktop/GoEnrichment/Output/Pnic_up_Enricher.csv",header=T,sep=",")
 dotplot(as.vector(t(GOI)))
-
+options(ggrepel.max.overlaps = Inf) #change to infinate overlap
 browseKEGG(xPnicUpgene, "map01100") #Metabolic pathways
-browseKEGG(xPnicUpgene, "M00176")
+browseKEGG(xPnicUpgene, "map01010")
+browseKEGG(xPnicUpgene, "ko02010")
+browseKEGG(xPnicUpgene, "map00920")
+browseKEGG(xPnicUpgene, "ko00920")
+ 
+
