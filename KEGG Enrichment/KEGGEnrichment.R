@@ -1,3 +1,4 @@
+#BiocManager::install("pathview")
 library("clusterProfiler")
 library(enrichR)
 library(ggplot2)
@@ -11,6 +12,8 @@ term2name <- data.frame(term2name)
 head(term2name)
 # Enrichment
 gene <- as.factor(contents$Gene_ID)
+
+
 xPnicUpgene <- enricher(gene,TERM2GENE=term2gene,TERM2NAME=term2name,pvalueCutoff = 0.05, qvalueCutoff = 0.05)
 
 ouf <- paste('Pnic_up_Enricher.csv',sep ="\t")
@@ -28,13 +31,17 @@ g + scale_color_manual(values = c("red","blue"))
 p1 <- heatplot(xPnicUpgene)
 upset(xPnicUpgene)
 
-GOI <- read.csv("/Users/weiwang/Desktop/GoEnrichment/Output/Pnic_up_Enricher.csv",header=T,sep=",")
-dotplot(as.vector(t(GOI)))
 options(ggrepel.max.overlaps = Inf) #change to infinate overlap
 browseKEGG(xPnicUpgene, "map01100") #Metabolic pathways
 browseKEGG(xPnicUpgene, "map01010")
 browseKEGG(xPnicUpgene, "ko02010")
 browseKEGG(xPnicUpgene, "map00920")
 browseKEGG(xPnicUpgene, "ko00920")
- 
+
+library("pathview")
+data(xPnicUpgene)
+hsa04110 <- pathview(gene.data  = xPnicUpgene,
+                     species = "ath",
+                     limit  = list(gene=max(abs(geneList)), cpd=1))
+
 

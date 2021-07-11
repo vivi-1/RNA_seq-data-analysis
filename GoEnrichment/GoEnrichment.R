@@ -29,4 +29,4 @@ g + scale_color_manual(values = c("red","blue"))
 GOI <- read.csv("/Users/weiwang/Desktop/GoEnrichment/Output/Pnic_up_Enricher.csv",header=T,sep=",")
 dotplot(as.vector(t(GOI)))
 
-browseKEGG(kk, "hsa04934")
+
