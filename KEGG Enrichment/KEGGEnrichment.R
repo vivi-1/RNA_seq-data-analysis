@@ -4,7 +4,7 @@ library(enrichR)
 library(ggplot2)
 
 #import annotation
-contents <- read.csv("/Users/weiwang/Desktop/KEGG enrichment/Input/Pnic_up_KEGG.csv",header=T,sep=",")
+contents <- read.csv("/Users/weiwang/Desktop/KEGG enrichment/Input/Pnic_up_KEGG1.csv",header=T,sep=",")
 term2name <- read.csv("/Users/weiwang/Desktop/KEGG enrichment/Input/Nb101_ID_KO.csv",header=T,sep=",")
 term2gene <- read.csv("/Users/weiwang/Desktop/KEGG enrichment/Input/KO_Gene_ID.csv",header=T,sep=",")
 term2gene <- data.frame(term2gene)
@@ -16,7 +16,7 @@ gene <- as.factor(contents$Gene_ID)
 
 xPnicUpgene <- enricher(gene,TERM2GENE=term2gene,TERM2NAME=term2name,pvalueCutoff = 0.05, qvalueCutoff = 0.05)
 
-ouf <- paste('Pnic_up_Enricher.csv',sep ="\t")
+ouf <- paste('Pnic_up_KEGG_Enricher.csv',sep ="\t")
 # result
 write.csv(xPnicUpgene,ouf)
 # barplot
@@ -28,6 +28,10 @@ xPnicUpgene<-enrichplot::pairwise_termsim(xPnicUpgene)
 emapplot(xPnicUpgene,  showCategory = 30, cex_label_category=0.4)
 g<-cnetplot(xPnicUpgene, showCategory = 20,cex_label_category = 1, cex_label_gene=0.8)
 g + scale_color_manual(values = c("red","blue"))
+g1<- cnetplot(xPnicUpgene, node_label="all", showCategory = 15, cex_label_category = 0.8, cex_label_gene=0.3) 
+
+g1 + scale_color_manual(values = c("red","blue"))
+
 p1 <- heatplot(xPnicUpgene)
 upset(xPnicUpgene)
 
