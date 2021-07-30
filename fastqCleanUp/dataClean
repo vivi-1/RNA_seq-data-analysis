@@ -1,0 +1,2 @@
+#raw data is in .tar, unpack .tar: tar -xvf filename.tar
+#scp -r fileName cloudAddress:
