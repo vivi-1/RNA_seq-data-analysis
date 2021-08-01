@@ -1,2 +1,4 @@
 #raw data is in .tar, unpack .tar: tar -xvf filename.tar
 #scp -r fileName cloudAddress:
+#bash: ssh wwei6@tinkercliffs2.arc.vt.edu
+#conda install -c bioconda fastqc 
