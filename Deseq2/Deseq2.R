@@ -130,7 +130,7 @@ dev.off()
 # MA plot
 resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
 res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
-pdf("MAplot_no rep2.pdf", width = 6, height = 6)
+pdf("all_MAplot_no rep2.pdf", width = 6, height = 6)
 plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="Pnic_Data_MA plot: ")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
@@ -170,7 +170,7 @@ voldata_Flag22_Pnic$change<-as.factor(ifelse(
   )
 )
 
-pdf("volcano.pdf", width = 6.13, height = 5.18)
+pdf("all_volcano.pdf", width = 6.13, height = 5.18)
 ggplot(data=voldata_Flag22, aes(x=log2FoldChange,y= -1*log10(padj), color=change)) +
   geom_point(alpha=0.8, size=1) +
   scale_color_manual(values=c("red", "green","black"), limits=c("Up", "Down", "NoDiff")) +
