@@ -9,7 +9,7 @@
 #BiocManager::install("apeglm")
 
 library(readxl)
-library (DeSeq2)
+library(DeSeq2)
 library(limma)
 library(apeglm)
 library(ggplot2)
