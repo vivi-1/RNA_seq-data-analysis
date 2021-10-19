@@ -9,7 +9,7 @@
 #BiocManager::install("apeglm")
 
 library(readxl)
-library(DeSeq2)
+library(DESeq2)
 library(limma)
 library(apeglm)
 library(ggplot2)
@@ -197,10 +197,6 @@ ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=c
 
 dev.off()
 
-#Heatmap
-
-
-
 ### T4 (lack one sample so analysis it alone)
 readscount <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/raw data_readcount_no rep2.xlsx', sheet = "T4")
 colData <- read_excel('/Volumes/WD1/Desktop/laboratory files/Results/Altria project/DEGlist/Wei_reDEGlist/Input/colData_no rep2.xlsx', sheet = "T4")
@@ -377,7 +373,6 @@ ggplot(data=voldata_Flag22_Pnic, aes(x=log2FoldChange,y= -1*log10(padj), color=c
 
 dev.off()
 
-#Heatmap
 
 ### T1-T3, T5-T7
 numberList<-c("T1", "T2", "T3", "T5", "T6", "T7")
