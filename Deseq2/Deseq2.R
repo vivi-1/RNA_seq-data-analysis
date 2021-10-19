@@ -36,6 +36,7 @@ keep <- rowSums(counts(dds) >= 10) >= 3
 dds <- dds[keep, ]
 
 #PCA analysis###
+pdf("all_PCA_no rep2.pdf", width = 6, height = 6)
 vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$condition)
 plotPCA(vsdata, intgroup = "replicate")
@@ -43,6 +44,7 @@ plotPCA(vsdata, intgroup = "replicate")
 vsdata <- vst(dds, blind=FALSE)
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$timepoint, vsdata$replicate)
 plotPCA(vsdata, intgroup = "condition")
+dev.off()
 
 #Plot of expression values
 readscount_new = assay(vsdata)
@@ -128,24 +130,21 @@ dev.off()
 # MA plot
 resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
 res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
-pdf("MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6)
-plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_Pnic_Data_MA plot: ")
-dev.off()
+pdf("MAplot_no rep2.pdf", width = 6, height = 6)
+plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="Pnic_Data_MA plot: ")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
 res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm")
-pdf("MAplot_res_flag22_Pnic_data_no rep2.pdf", width = 6, height = 6)
-plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Pnic_Data_MA plot: ")
-dev.off()
+plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="flag22_Pnic_Data_MA plot: ")
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
 res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm")
-pdf("MAplot_res_flag22_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_flag22_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Data_MA plot: ")
 dev.off()
 
+#volcano plot
 voldata_Flag22 <-read.csv(file = "all_Flag22_no rep2.csv",header = TRUE, row.names =1)
 voldata_Pnic <-read.csv(file = "all_Pnic_no rep2.csv",header = TRUE, row.names =1)
 voldata_Flag22_Pnic <-read.csv(file = "all_Flag22_Pnic_no rep2.csv",header = TRUE, row.names =1)
@@ -213,6 +212,7 @@ keep <- rowSums(counts(dds) >= 10) >= 3
 dds <- dds[keep, ]
 
 #PCA analysis###
+pdf("T4_PCA_no rep2.pdf", width = 6, height = 6)
 vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$condition)
 plotPCA(vsdata, intgroup = "replicate")
@@ -220,6 +220,7 @@ plotPCA(vsdata, intgroup = "replicate")
 vsdata <- vst(dds, blind=FALSE)
 assay(vsdata) <- limma::removeBatchEffect(assay(vsdata),vsdata$replicate)
 plotPCA(vsdata, intgroup = "condition")
+dev.off()
 
 #Plot of expression values
 readscount_new = assay(vsdata)
@@ -294,6 +295,7 @@ df4<-read.csv("T4_down_Flag22_no rep2.csv",header = T,stringsAsFactors = F)
 df5<-read.csv("T4_up_Flag22_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
 df6<-read.csv("T4_down_Flag22_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
 library(ggvenn)
+
 x<-list(PnicUp=df1$Row.names,Flag22Up=df3$Row.names,Flag22_PnicUp=df5$Row.names)
 pdf("T4_Venn_up_down_no rep2.pdf", width = 6, height = 6)
 ggvenn(x,c("PnicUp","Flag22Up","Flag22_PnicUp"),set_name_size = 3,fill_alpha = 1,text_size = 3)
@@ -303,27 +305,24 @@ dev.off()
 
 
 # MA plot
+pdf("T4_MAplot_no rep2.pdf", width = 6, height = 6)
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
 res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
-pdf("T4_MAplot_res_Pnic_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="T4_res_Pnic_Data_MA plot: ")
-dev.off()
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
 res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm")
-pdf("T4_MAplot_res_flag22_Pnic_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Pnic_Data_MA plot: ")
-dev.off()
 
 dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
 dds_norm$condition
 res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm")
-pdf("T4_MAplot_res_flag22_data_no rep2.pdf", width = 6, height = 6)
 plotMA(res_flag22_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Data_MA plot: ")
 dev.off()
 
+#volcano plot
 voldata_Flag22 <-read.csv(file = "T4_all_Flag22_no rep2.csv",header = TRUE, row.names =1)
 voldata_Pnic <-read.csv(file = "T4_all_Pnic_no rep2.csv",header = TRUE, row.names =1)
 voldata_Flag22_Pnic <-read.csv(file = "T4_all_Flag22_Pnic_no rep2.csv",header = TRUE, row.names =1)
@@ -395,6 +394,7 @@ for (time in numberList) {
   dds <- dds[keep, ]
 
 #PCA analysis###
+  pdf(paste(time,"_PCA_no rep2.pdf"), width = 6, height = 6)
   vsdata <- vst(dds, blind=FALSE) #variance stabilizing transformation
   assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$condition)
   plotPCA(vsdata, intgroup = "replicate")
@@ -402,7 +402,8 @@ for (time in numberList) {
   vsdata <- vst(dds, blind=FALSE)
   assay(vsdata) <- limma::removeBatchEffect(assay(vsdata), vsdata$replicate)
   plotPCA(vsdata, intgroup = "condition")
-
+  dev.off()
+  
 #Plot of expression values
   readscount_new = assay(vsdata)
   head(readscount_new)
@@ -476,34 +477,32 @@ for (time in numberList) {
   df5<-read.csv(paste(time,"_up_Flag22_Pnic_no rep2.csv"),header = T,stringsAsFactors = F)
   df6<-read.csv(paste(time,"_down_Flag22_Pnic_no rep2.csv"),header = T,stringsAsFactors = F)
   library(ggvenn)
+  pdf(paste(time,"_vennPlot_no rep2.pdf"), width = 6, height = 6)
   x<-list(PnicUp=df1$Row.names,Flag22Up=df3$Row.names,Flag22_PnicUp=df5$Row.names)
   ggvenn(x,c("PnicUp","Flag22Up","Flag22_PnicUp"),set_name_size = 3,fill_alpha = 1,text_size = 3)
   x<-list(PnicDown=df2$Row.names,Flag22Down=df4$Row.names,Flag22_PnicDown=df6$Row.names)
   ggvenn(x,c("PnicDown","Flag22Down","Flag22_PnicDown"),set_name_size = 3,fill_alpha = 1,text_size = 3)
-
+  dev.off()
 
 # MA plot
   dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
   resultsNames(dds_norm)  #shrink makes data more compact,don't change padj，change foldchange
   res_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Pnic_vs_Control", type="apeglm")
-  pdf(paste(time,"_MAplot_res_Pnic_data_no rep2.pdf"), width = 6, height = 6)
+  pdf(paste(time,"_MAplot_no rep2.pdf"), width = 6, height = 6)
   plotMA(res_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="T4_res_Pnic_Data_MA plot: ")
-  dev.off()
 
   dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
   dds_norm$condition
   res_flag22_Pnic_shrink <- lfcShrink(dds_norm, coef="condition_Flag22.Pnic_vs_Control", type="apeglm")
-  pdf(paste(time,"_MAplot_res_flag22_Pnic_data_no rep2.pdf"), width = 6, height = 6)
   plotMA(res_flag22_Pnic_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Pnic_Data_MA plot: ")
-  dev.off()
 
   dds_norm <- DESeq(dds, minReplicatesForReplace = Inf) #Normalization; outliers is not filtered out; same result with cookscutoff
   dds_norm$condition
   res_flag22_shrink <- lfcShrink(dds_norm, coef="condition_Flag22_vs_Control", type="apeglm")
-  pdf(paste(time,"_MAplot_res_flag22_data_no rep2.pdf"), width = 6, height = 6)
   plotMA(res_flag22_shrink, ylim=c(-10,10), alpha=0.1, main="res_flag22_Data_MA plot: ")
   dev.off()
 
+#Volcano plot
   voldata_Flag22 <-read.csv(file = paste(time,"_all_Flag22_no rep2.csv"),header = TRUE, row.names =1)
   voldata_Pnic <-read.csv(file = paste(time,"_all_Pnic_no rep2.csv"),header = TRUE, row.names =1)
   voldata_Flag22_Pnic <-read.csv(file = paste(time,"_all_Flag22_Pnic_no rep2.csv"),header = TRUE, row.names =1)
