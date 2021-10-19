@@ -118,10 +118,13 @@ df5<-read.csv("up_Flag22_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
 df6<-read.csv("down_Flag22_Pnic_no rep2.csv",header = T,stringsAsFactors = F)
 library(ggvenn)
 x<-list(PnicUp=df1$Row.names,Flag22Up=df3$Row.names,Flag22_PnicUp=df5$Row.names)
+pdf("all_Venn_up_no rep2.pdf", width = 6, height = 6)
 ggvenn(x,c("PnicUp","Flag22Up","Flag22_PnicUp"),set_name_size = 3,fill_alpha = 1,text_size = 3)
+dev.off()
 x<-list(PnicDown=df2$Row.names,Flag22Down=df4$Row.names,Flag22_PnicDown=df6$Row.names)
+pdf("all_Venn_down_no rep2.pdf", width = 6, height = 6)
 ggvenn(x,c("PnicDown","Flag22Down","Flag22_PnicDown"),set_name_size = 3,fill_alpha = 1,text_size = 3)
-
+dev.off()
 
 
 # MA plot
